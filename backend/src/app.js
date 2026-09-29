@@ -1,28 +1,30 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const { sequelize } = require('./models');
-const avionesRoutes = require('./routes/avionesRoutes');
-const vuelosRoutes = require('./routes/vuelosRoutes');
-const tripulantesRoutes = require('./routes/tripulantesRoutes');
-const authRoutes = require('./routes/authRoutes');
-
 
 const app = express();
 
-
 app.use(cors());
 app.use(express.json());
-//  Endpoint de prueba, para confirmar que el server responde
-app.get('/', (req, res) => {
+
+app.use(express.static(path.join(__dirname, '../../frontend')));
+
+app.get('/api', (req, res) => {
     res.json({ mensaje: 'SkyTrack Airlines API funcionando' });
 });
 
-//  Acá van a ir montadas las rutas reales 
-app.use('/api/vuelos', vuelosRoutes);
+const avionesRoutes = require('./routes/avionesRoutes');
 app.use('/api/aviones', avionesRoutes);
+
+const vuelosRoutes = require('./routes/vuelosRoutes');
+app.use('/api/vuelos', vuelosRoutes);
+
+const tripulantesRoutes = require('./routes/tripulantesRoutes');
 app.use('/api/tripulantes', tripulantesRoutes);
 
+const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT || 3000;
