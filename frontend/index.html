@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SkyTrack Airlines</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="login-view" class="login-container">
+        <h1>SkyTrack Airlines</h1>
+        <form id="form-login">
+            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Contraseña" required>
+            <button type="submit">Ingresar</button>
+            <p id="login-error" class="error"></p>
+        </form>
+    </div>
+
+    <div id="app-view" class="hidden">
+        <nav>
+            <span class="brand">SkyTrack Airlines</span>
+            <button data-view="vuelos" class="nav-btn active">Vuelos</button>
+            <button data-view="panel" class="nav-btn">Panel de Estado</button>
+            <button data-view="aviones" class="nav-btn">Aviones</button>
+            <button data-view="tripulantes" class="nav-btn">Tripulantes</button>
+            <span id="usuario-info"></span>
+            <button id="btn-logout">Salir</button>
+        </nav>
+
+        <main>
+            <section id="view-vuelos" class="view">
+                <h2>Vuelos</h2>
+                <div class="filtros">
+                    <input type="text" id="filtro-origen" placeholder="Origen">
+                    <input type="text" id="filtro-destino" placeholder="Destino">
+                    <select id="filtro-estado">
+                        <option value="">Todos los estados</option>
+                        <option value="programado">Programado</option>
+                        <option value="embarcando">Embarcando</option>
+                        <option value="en_vuelo">En vuelo</option>
+                        <option value="aterrizado">Aterrizado</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                    <button id="btn-filtrar">Filtrar</button>
+                    <button id="btn-nuevo-vuelo">+ Nuevo vuelo</button>
+                </div>
+
+                <table id="tabla-vuelos">
+                    <thead>
+                        <tr>
+                            <th>Origen</th>
+                            <th>Destino</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Estado</th>
+                            <th>Avion</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-vuelos-body"></tbody>
+                </table>
+
+                <form id="form-vuelo" class="hidden panel-form">
+                    <h3 id="form-vuelo-titulo">Nuevo vuelo</h3>
+                    <input type="hidden" id="vuelo-id">
+                    <input type="text" id="vuelo-origen" placeholder="Origen" required>
+                    <input type="text" id="vuelo-destino" placeholder="Destino" required>
+                    <input type="date" id="vuelo-fecha" required>
+                    <input type="time" id="vuelo-hora" required>
+                    <select id="vuelo-avion" required></select>
+                    <select id="vuelo-estado">
+                        <option value="programado">Programado</option>
+                        <option value="embarcando">Embarcando</option>
+                        <option value="en_vuelo">En vuelo</option>
+                        <option value="aterrizado">Aterrizado</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                    <button type="submit">Guardar</button>
+                    <button type="button" id="btn-cancelar-vuelo">Cancelar</button>
+                </form>
+
+                <div id="detalle-vuelo" class="hidden panel-form">
+                    <h3>Detalle del vuelo</h3>
+                    <div id="detalle-vuelo-info"></div>
+                    <h4>Tripulación asignada</h4>
+                    <ul id="lista-tripulantes-asignados"></ul>
+                    <div class="asignar-tripulante">
+                        <select id="select-tripulante-nuevo"></select>
+                        <button id="btn-asignar-tripulante">Asignar</button>
+                    </div>
+                    <button id="btn-cerrar-detalle">Cerrar</button>
+                </div>
+            </section>
+
+            <section id="view-panel" class="view hidden">
+                <h2>Panel de Estado</h2>
+                <div id="panel-proximo" class="panel-card"></div>
+                <h3>Vuelos en curso</h3>
+                <div id="panel-en-curso"></div>
+            </section>
+
+            <section id="view-aviones" class="view hidden">
+                <h2>Aviones</h2>
+                <table id="tabla-aviones">
+                    <thead>
+                        <tr>
+                            <th>Patente</th>
+                            <th>Modelo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-aviones-body"></tbody>
+                </table>
+                <form id="form-avion" class="panel-form">
+                    <h3>Nuevo avion</h3>
+                    <input type="hidden" id="avion-id">
+                    <input type="text" id="avion-patente" placeholder="Patente" required>
+                    <input type="text" id="avion-modelo" placeholder="Modelo" required>
+                    <select id="avion-estado">
+                        <option value="disponible">Disponible</option>
+                        <option value="en_vuelo">En vuelo</option>
+                        <option value="mantenimiento">Mantenimiento</option>
+                    </select>
+                    <button type="submit">Guardar</button>
+                </form>
+            </section>
+
+            <section id="view-tripulantes" class="view hidden">
+                <h2>Tripulantes</h2>
+                <table id="tabla-tripulantes">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Rol</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-tripulantes-body"></tbody>
+                </table>
+                <form id="form-tripulante" class="panel-form">
+                    <h3>Nuevo tripulante</h3>
+                    <input type="text" id="tripulante-nombre" placeholder="Nombre" required>
+                    <select id="tripulante-rol">
+                        <option value="piloto">Piloto</option>
+                        <option value="copiloto">Copiloto</option>
+                        <option value="auxiliar">Auxiliar</option>
+                    </select>
+                    <button type="submit">Guardar</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
