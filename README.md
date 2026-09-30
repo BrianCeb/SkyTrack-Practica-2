@@ -14,6 +14,7 @@ Este es mi proyecto final de la Práctica Profesionalizante II (Tecnicatura Supe
 ## Cómo lo levanto
 
 ```bash
+gh repo clone BrianCeb/SkyTrack-Practica-2
 cd backend
 npm install
 ```
@@ -21,9 +22,13 @@ npm install
 Necesito un archivo `.env` adentro de `backend/` con esto:
 
 PORT=3000
-JWT_SECRET=cambiar_esto_por_un_secreto_largo_y_random
+JWT_SECRET=cambiar_esto
 DB_STORAGE=./database.sqlite
 
+```bash
+npm run seed     # para cargar las tablas con datos de prueba
+npm run dev
+```
 
 Y para correrlo:
 
