@@ -50,7 +50,7 @@ async function seed() {
         {
             origen: 'Buenos Aires', destino: 'Córdoba',
             fecha: fechaDentroDe(0), hora: '10:00:00',
-            estado: 'en_vuelo', id_avion: a2.id, // coincide con el avión en_vuelo
+            estado: 'en_vuelo', id_avion: a2.id, 
         },
         {
             origen: 'Mendoza', destino: 'Bariloche',

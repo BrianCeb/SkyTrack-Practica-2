@@ -23,6 +23,10 @@ async function crearVuelo(datos) {
     const avion = await Avion.findByPk(datos.id_avion);
     if (!avion) throw new Error('El avion indicado no existe');
 
+    if (avion.estado !== 'disponible') {
+        throw new Error(`No se puede programar un vuelo con un avión en estado "${avion.estado}"`);
+    }
+
     if (esFechaHoraPasada(datos.fecha, datos.hora)) {
         throw new Error('No se puede programar un vuelo en una fecha u hora que ya pasó');
     }
@@ -41,6 +45,10 @@ async function actualizarVuelo(id, datos) {
     if (datos.id_avion) {
         const avion = await Avion.findByPk(datos.id_avion);
         if (!avion) throw new Error('El avion indicado no existe');
+
+        if (avion.estado !== 'disponible') {
+            throw new Error(`No se puede asignar un avión en estado "${avion.estado}"`);
+        }
     }
 
     await vuelo.update(datos);

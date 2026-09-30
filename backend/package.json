@@ -26,5 +26,11 @@
         "nodemon": "^3.1.14",
         "jest": "...",
         "@playwright/test": "^1.48.0"
+    },
+    "jest": {
+        "testPathIgnorePatterns": [
+            "/node_modules/",
+            "<rootDir>/tests/e2e/"
+        ]
     }
 }

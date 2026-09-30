@@ -16,11 +16,11 @@ const Vuelo = sequelize.define('Vuelo', {
         allowNull: false,
     },
     fecha: {
-        type: DataTypes.DATEONLY, // solo fecha
+        type: DataTypes.DATEONLY, 
         allowNull: false,
     },
     hora: {
-        type: DataTypes.TIME, // solo hora
+        type: DataTypes.TIME, 
     },
     estado: {
         type: DataTypes.ENUM('programado', 'embarcando', 'en_vuelo', 'aterrizado', 'cancelado'),

@@ -44,7 +44,7 @@ async function darDeBaja(req, res) {
         if (!vuelo) return res.status(404).json({ error: 'Vuelo no encontrado' });
         res.json({ mensaje: 'Vuelo dado de baja correctamente', vuelo });
     } catch (error) {
-        res.status(500).json({ error: 'Error al dar de baja el vuelo', detalle: error.message });
+        res.status(400).json({ error: 'Error al dar de baja el vuelo', detalle: error.message });
     }
 }
 
@@ -74,7 +74,7 @@ async function iniciar(req, res) {
         if (!vuelo) return res.status(404).json({ error: 'Vuelo no encontrado' });
         res.json(vuelo);
     } catch (error) {
-        res.status(500).json({ error: 'Error al iniciar el vuelo', detalle: error.message });
+        res.status(400).json({ error: 'Error al iniciar el vuelo', detalle: error.message });
     }
 }
 
@@ -84,7 +84,7 @@ async function aterrizar(req, res) {
         if (!vuelo) return res.status(404).json({ error: 'Vuelo no encontrado' });
         res.json(vuelo);
     } catch (error) {
-        res.status(500).json({ error: 'Error al aterrizar el vuelo', detalle: error.message });
+        res.status(400).json({ error: 'Error al aterrizar el vuelo', detalle: error.message });
     }
 }
 

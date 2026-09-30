@@ -14,7 +14,6 @@ router.delete('/:id', verificarToken, verificarRol('admin'), vuelosController.da
 router.post('/:id/tripulantes', verificarToken, verificarRol('admin', 'operador'), vuelosController.asignarTripulante);
 router.delete('/:id/tripulantes/:idTripulante', verificarToken, verificarRol('admin', 'operador'), vuelosController.quitarTripulante);
 
-// Caso Nº 6: cambios de estado
 router.patch('/:id/iniciar', verificarToken, vuelosController.iniciar);
 router.patch('/:id/aterrizar', verificarToken, vuelosController.aterrizar);
 
