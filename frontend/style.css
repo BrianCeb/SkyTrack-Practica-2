@@ -1,3 +1,17 @@
+:root {
+    --azul: #185fa5;
+    --azul-oscuro: #0c447c;
+    --azul-claro: #d9ecff;
+    --fondo: #eef2f7;
+    --tarjeta: #ffffff;
+    --borde: #d8dee6;
+    --texto: #1c2430;
+    --texto-suave: #5c6b7f;
+    --verde: #1f7a41;
+    --rojo: #a32d2d;
+    --naranja: #92600b;
+}
+
 * {
     box-sizing: border-box;
     font-family: system-ui, sans-serif;
@@ -5,178 +19,500 @@
 
 body {
     margin: 0;
-    background: #f4f5f7;
-    color: #1a1a1a;
+    min-height: 100vh;
+    color: var(--texto);
+    background-color: #eef2f7;
+    background-image:
+        radial-gradient(circle at 50% -10%, rgba(24, 95, 165, 0.09), transparent 55%),
+        linear-gradient(rgba(24, 95, 165, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(24, 95, 165, 0.07) 1px, transparent 1px);
+    background-size: auto, 34px 34px, 34px 34px;
+    background-attachment: fixed;
 }
 
 .hidden {
     display: none !important;
 }
 
+/* ---- Botones: todos con el mismo alto y estilo base ---- */
+
+button {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 6px;
+    border: 1px solid var(--borde);
+    background: var(--tarjeta);
+    color: var(--texto);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: filter 0.15s, background 0.15s;
+}
+
+button:hover {
+    filter: brightness(0.96);
+}
+
+.btn-primario,
+.login-container button,
+.panel-form button[type="submit"] {
+    background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
+    color: white;
+    border: none;
+}
+
+.btn-primario:hover,
+.login-container button:hover,
+.panel-form button[type="submit"]:hover {
+    filter: brightness(1.08);
+}
+
+.btn-secundario {
+    background: var(--tarjeta);
+    color: var(--texto-suave);
+}
+
+table button,
+#lista-tripulantes-asignados li button {
+    min-width: 112px;
+    height: 32px;
+    font-size: 12.5px;
+    background: #eef2f7;
+    border: 1px solid var(--borde);
+    color: var(--texto);
+}
+
+.btn-baja {
+    color: var(--rojo) !important;
+    border-color: #f0c9c9 !important;
+}
+
+#lista-tripulantes-asignados li button {
+    background: #fbdede;
+    color: var(--rojo);
+    border: none;
+}
+
+/* ---- Inputs y selects ---- */
+
+input,
+select {
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--texto);
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    padding: 8px 10px;
+    height: 38px;
+}
+
+select option {
+    color: var(--texto);
+    background: var(--tarjeta);
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--azul);
+    box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.12);
+}
+
+/* ---- Login ---- */
+
 .login-container {
-    max-width: 320px;
-    margin: 80px auto;
-    padding: 24px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    max-width: 380px;
+    margin: 100px auto;
+    padding: 32px;
+    background: var(--tarjeta);
+    border-radius: 14px;
+    box-shadow: 0 12px 34px rgba(12, 68, 124, 0.15);
     text-align: center;
 }
 
+.login-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.logo-login {
+    width: 56px;
+    height: 56px;
+}
+
+.login-brand h1 {
+    font-size: 20px;
+    margin: 0;
+    color: var(--azul-oscuro);
+}
+
+.login-container .campo {
+    text-align: left;
+    margin-bottom: 12px;
+}
+
 .login-container input {
-    display: block;
     width: 100%;
-    margin: 8px 0;
-    padding: 8px;
 }
 
 .login-container button {
     width: 100%;
-    padding: 8px;
-    background: #185fa5;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    margin-top: 6px;
 }
 
 .error {
-    color: #a32d2d;
+    color: var(--rojo);
     font-size: 13px;
+    margin-top: 10px;
 }
+
+/* ---- Campos de formulario (labels) ---- */
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.campo label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--texto-suave);
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 14px 0;
+}
+
+.campo-full {
+    grid-column: 1 / -1;
+}
+
+.acciones-form {
+    display: flex;
+    gap: 10px;
+}
+
+/* ---- Nav ---- */
 
 nav {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     padding: 12px 20px;
-    background: #0c447c;
+    background: linear-gradient(135deg, var(--azul-oscuro), #08325c);
     color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.brand-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px 4px 4px;
+    margin-right: 14px;
+    height: auto;
+}
+
+.brand-btn:hover {
+    filter: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+}
+
+.brand-btn .logo {
+    width: 28px;
+    height: 28px;
 }
 
 nav .brand {
     font-weight: bold;
-    margin-right: 20px;
+    color: white;
 }
 
 nav .nav-btn {
     background: none;
-    border: none;
+    border: 1px solid transparent;
     color: white;
-    padding: 6px 12px;
-    cursor: pointer;
-    border-radius: 4px;
+}
+
+nav .nav-btn:hover {
+    filter: none;
+    background: rgba(255, 255, 255, 0.08);
 }
 
 nav .nav-btn.active {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 nav #usuario-info {
     margin-left: auto;
     font-size: 13px;
+    opacity: 0.9;
 }
 
 nav #btn-logout {
-    background: #a32d2d;
+    background: rgba(163, 45, 45, 0.85);
     color: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
+/* ---- Layout general ---- */
+
 main {
-    padding: 20px;
-    max-width: 900px;
+    padding: 24px;
+    max-width: 960px;
     margin: 0 auto;
+}
+
+h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--azul-oscuro);
+    margin-bottom: 16px;
 }
 
 .filtros {
     display: flex;
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     flex-wrap: wrap;
+    align-items: center;
 }
 
-.filtros input,
-.filtros select {
-    padding: 6px;
+.texto-ayuda {
+    color: var(--texto-suave);
+    font-size: 13px;
+    margin-top: -8px;
+    margin-bottom: 16px;
 }
 
-.filtros button {
-    padding: 6px 12px;
-    cursor: pointer;
-}
+/* ---- Tablas ---- */
 
 table {
     width: 100%;
-    border-collapse: collapse;
-    background: white;
-    margin-bottom: 16px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--tarjeta);
+    margin-bottom: 18px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(20, 40, 70, 0.06);
 }
 
 th,
 td {
     text-align: left;
-    padding: 8px;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 12px;
+    border-bottom: 1px solid #eef1f5;
 }
 
 th {
-    background: #f0f0f0;
+    background: var(--azul-claro);
+    color: var(--azul-oscuro);
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
+
+tbody tr:nth-child(even) {
+    background: #fafbfd;
+}
+
+tbody tr:hover {
+    background: #eef4fb;
+}
+
+/* ---- Formularios / paneles (centrados, con más peso visual) ---- */
 
 .panel-form {
-    background: white;
-    padding: 16px;
-    border-radius: 8px;
-    margin-top: 12px;
-    max-width: 400px;
+    background: var(--tarjeta);
+    padding: 24px;
+    border-radius: 12px;
+    margin: 24px auto;
+    max-width: 480px;
+    box-shadow: 0 16px 40px rgba(12, 68, 124, 0.14);
+    border-top: 4px solid var(--azul);
+    animation: aparecer 0.2s ease-out;
 }
 
-.panel-form input,
-.panel-form select {
-    display: block;
-    width: 100%;
-    margin: 6px 0;
-    padding: 6px;
-}
-
-.panel-form button {
-    margin-top: 8px;
-    padding: 6px 12px;
-    cursor: pointer;
+.panel-form h3 {
+    margin-top: 0;
+    color: var(--azul-oscuro);
 }
 
 .panel-card {
-    background: white;
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 12px;
+    background: var(--tarjeta);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 0 auto 16px;
+    max-width: 480px;
+    box-shadow: 0 16px 40px rgba(12, 68, 124, 0.14);
+    border-left: 5px solid var(--azul);
+    animation: aparecer 0.2s ease-out;
+}
+
+.panel-card h3 {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--azul-oscuro);
 }
 
 .panel-card button {
-    margin-top: 8px;
-    padding: 6px 12px;
-    cursor: pointer;
+    margin-top: 4px;
 }
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---- Badges de estado ---- */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.badge-programado {
+    background: #e3e8f0;
+    color: #3b4a63;
+}
+
+.badge-embarcando {
+    background: #fdead1;
+    color: var(--naranja);
+}
+
+.badge-en-vuelo {
+    background: var(--azul-claro);
+    color: var(--azul-oscuro);
+}
+
+.badge-aterrizado {
+    background: #dcf3e3;
+    color: var(--verde);
+}
+
+.badge-cancelado {
+    background: #fbdede;
+    color: var(--rojo);
+}
+
+/* ---- Lista de tripulación asignada ---- */
 
 #lista-tripulantes-asignados {
     list-style: none;
     padding: 0;
+    margin: 10px 0;
 }
 
 #lista-tripulantes-asignados li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    background: #f7f9fc;
+    border: 1px solid #eef1f5;
+    border-radius: 8px;
 }
 
 .asignar-tripulante {
     display: flex;
     gap: 8px;
-    margin-top: 8px;
+    margin: 12px 0;
+}
+
+.asignar-tripulante select {
+    flex: 1;
+}
+
+.mensaje-exito {
+    color: var(--verde);
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.panel-detalle {
+    border-top: none;
+    padding: 0;
+    overflow: hidden;
+}
+
+.panel-detalle .detalle-header {
+    background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
+    color: white;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.panel-detalle .detalle-body {
+    padding: 20px 24px 24px;
+}
+
+.panel-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.panel-tab-btn {
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    color: var(--texto-suave);
+}
+
+.panel-tab-btn.active {
+    background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
+    color: white;
+    border-color: transparent;
+}
+
+.panel-tab-contenido .panel-card {
+    margin-left: 0;
 }
