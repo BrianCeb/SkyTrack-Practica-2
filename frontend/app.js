@@ -196,7 +196,7 @@ async function abrirEdicionVuelo(id) {
     document.getElementById('vuelo-id').value = vuelo.id;
     document.getElementById('vuelo-origen').value = vuelo.origen;
     document.getElementById('vuelo-destino').value = vuelo.destino;
-    llenarSelectAviones('vuelo-avion');
+    llenarSelectAviones('vuelo-avion', vuelo.id_avion);
     document.getElementById('vuelo-avion').value = vuelo.id_avion;
     document.getElementById('vuelo-estado').value = vuelo.estado;
     flatpickrFecha.set('minDate', null); // al editar permitimos conservar una fecha ya pasada
@@ -345,8 +345,17 @@ document.getElementById('btn-cerrar-detalle').addEventListener('click', () => {
 
 // ---- Panel de Control (Caso Nº 6) ----
 
+let panelDataAnterior = null;
+
 async function cargarPanel() {
     const data = await api('/vuelos/panel');
+
+    // Si no cambió nada desde la última vez, no volvemos a dibujar las tarjetas
+    // (evita el parpadeo/animación repetida cada 4 segundos por el auto-refresh)
+    const snapshot = JSON.stringify(data);
+    if (snapshot === panelDataAnterior) return;
+    panelDataAnterior = snapshot;
+
     renderTarjetasPanel('panel-tab-programados', data.programados, 'iniciar', 'No hay vuelos programados.');
     renderTarjetasPanel('panel-tab-embarcando', data.embarcando, 'iniciar', 'No hay vuelos embarcando.');
     renderTarjetasPanel('panel-tab-en-curso', data.enCurso, 'aterrizar', 'No hay vuelos en curso.');
@@ -366,16 +375,25 @@ function renderTarjetasPanel(contenedorId, vuelos, accion, mensajeVacio) {
         const div = document.createElement('div');
         div.className = 'panel-card';
         let boton = '';
+        let avisoFaltantes = '';
+
         if (accion === 'iniciar') {
-            boton = `<button class="btn-iniciar" data-id="${v.id}"><i class="fa-solid fa-plane-departure"></i> Iniciar vuelo</button>`;
+            const roles = (v.Tripulantes || []).map(t => t.rol);
+            const faltantes = ['piloto', 'copiloto', 'auxiliar'].filter(rol => !roles.includes(rol));
+            if (faltantes.length > 0) {
+                avisoFaltantes = `<p class="aviso-tripulacion-incompleta"><i class="fa-solid fa-triangle-exclamation"></i> Falta: ${faltantes.join(', ')}</p>`;
+                boton = `<button class="btn-iniciar" data-id="${v.id}" disabled title="Completá la tripulación para poder despegar"><i class="fa-solid fa-plane-departure"></i> Iniciar vuelo</button>`;
+            } else {
+                boton = `<button class="btn-iniciar" data-id="${v.id}"><i class="fa-solid fa-plane-departure"></i> Iniciar vuelo</button>`;
+            }
         } else if (accion === 'aterrizar') {
             boton = `<button class="btn-aterrizar" data-id="${v.id}"><i class="fa-solid fa-plane-arrival"></i> Aterrizar</button>`;
         }
-        div.innerHTML = `<p><i class="fa-solid fa-plane"></i> ${v.origen} &rarr; ${v.destino} &mdash; ${v.fecha} ${v.hora}</p>${boton}`;
+        div.innerHTML = `<p><i class="fa-solid fa-plane"></i> ${v.origen} &rarr; ${v.destino} &mdash; ${v.fecha} ${v.hora}</p>${avisoFaltantes}${boton}`;
         contenedor.appendChild(div);
     });
 
-    contenedor.querySelectorAll('.btn-iniciar').forEach(b =>
+    contenedor.querySelectorAll('.btn-iniciar:not([disabled])').forEach(b =>
         b.addEventListener('click', async () => {
             try {
                 await api(`/vuelos/${b.dataset.id}/iniciar`, { method: 'PATCH' });
@@ -428,15 +446,20 @@ async function cargarAviones() {
     );
 }
 
-function llenarSelectAviones(selectId) {
+function llenarSelectAviones(selectId, idAvionActual = null) {
     const select = document.getElementById(selectId);
     select.innerHTML = '';
-    cacheAviones.forEach(a => {
-        const opt = document.createElement('option');
-        opt.value = a.id;
-        opt.textContent = `${a.patente} (${a.modelo})`;
-        select.appendChild(opt);
-    });
+    cacheAviones
+        // Solo se puede elegir un avión disponible, salvo que sea el que ya tenía asignado el vuelo (al editar)
+        .filter(a => a.estado === 'disponible' || a.id === idAvionActual)
+        .forEach(a => {
+            const opt = document.createElement('option');
+            opt.value = a.id;
+            opt.textContent = a.estado === 'disponible'
+                ? `${a.patente} (${a.modelo})`
+                : `${a.patente} (${a.modelo}) - en ${a.estado}`;
+            select.appendChild(opt);
+        });
 }
 
 document.getElementById('form-avion').addEventListener('submit', async (e) => {

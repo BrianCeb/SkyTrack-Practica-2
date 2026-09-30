@@ -516,3 +516,21 @@ tbody tr:hover {
 .panel-tab-contenido .panel-card {
     margin-left: 0;
 }
+
+#tabla-vuelos-body td:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.aviso-tripulacion-incompleta {
+    color: #b45309;
+    font-size: 0.85rem;
+    margin: 6px 0;
+}
+
+.panel-card button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
